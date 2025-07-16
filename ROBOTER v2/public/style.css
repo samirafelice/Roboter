@@ -1,0 +1,147 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+.reset-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(47, 41, 42, 0.85); /* dunkles Overlay */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.reset-message {
+  color: #F6F1E2;
+  font-size: 24px;
+  text-align: center;
+  background-color: #CD422D;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.reset-message button {
+  margin-top: 20px;
+  padding: 10px 25px;
+  font-size: 16px;
+  background-color: #CCAE4D;
+  color: #2F292A;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.reset-message button:hover {
+  background-color: #88A3A9;
+  color: white;
+}
+
+button {
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  background-color: #88a3a9;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #738f95;
+}
+
+.option-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+canvas {
+  margin-top: 20px;
+  max-width: 220px;
+  max-height: 220px;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.spinner {
+  margin: 20px auto;
+  width: 40px;
+  height: 40px;
+  border: 5px solid #ccc;
+  border-top: 5px solid #ede6d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Fortschrittsanzeige */
+.progress-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 40px;
+  z-index: 100;
+}
+.progress-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: #ccc;
+  z-index: 0;
+  transform: translateY(-50%);
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.step {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ccc;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #ccc;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step.done {
+  background-color: #ede6d2;
+  box-shadow: 0 0 0 2px #ede6d2;
+}
+
+.step.active {
+  background-color: #2f292a;
+  box-shadow: 0 0 0 2px #2f292a;
+}

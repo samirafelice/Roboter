@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roboter Interaktion</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<div id="reset-overlay" class="reset-overlay">
+  <div class="reset-message">
+    ⏳ Du warst eine Weile inaktiv.<br><br>
+    <button onclick="resetToStart()">Zurück zum Start</button>
+  </div>
+</div>
+
+<body>
+  <h1>Roboter Interaktion</h1>
+
+  <div id="step-container"></div>
+
+  <!-- Fortschrittsanzeige -->
+  <div class="progress-container">
+    <div class="progress-line"></div>
+    <div class="progress-steps">
+      <div class="step" id="step-1"></div>
+      <div class="step" id="step-2"></div>
+      <div class="step" id="step-3"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
