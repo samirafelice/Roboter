@@ -1,9 +1,11 @@
 let currentStep = 0;
+let inactivityTimer;
 
 function startInteraction() {
   currentStep++;
   updateProgress(currentStep);
   showStepButton(currentStep);
+  resetAfterInactivity();
 }
 
 function showStepButton(step) {
@@ -16,6 +18,7 @@ function showStepButton(step) {
   document.getElementById('step-container').innerHTML = `
     <button onclick="startLoading(${step})">${labels[step]}</button>
   `;
+  resetAfterInactivity();
 }
 
 function startLoading(step) {
@@ -28,6 +31,7 @@ function startLoading(step) {
   `;
 
   setTimeout(() => showOptions(step), 5000);
+  resetAfterInactivity();
 }
 
 function showOptions(step) {
@@ -50,25 +54,25 @@ function showOptions(step) {
   `;
 
   document.getElementById('step-container').innerHTML = html;
+  resetAfterInactivity();
 }
 
 async function selectOption(option) {
-  // 1. Antwort speichern
+  resetAfterInactivity();
+
   await fetch('/api/response', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ step: currentStep, option })
   });
 
-  // 2. Zeige Diagramm sofort
   showChart(currentStep);
 
-  // 3. Weiter oder Danke
   let nextHtml = '';
   if (currentStep < 3) {
     nextHtml = `<br><button onclick="startInteraction()">Weiter</button>`;
   } else {
-    nextHtml = `<br><p>Danke für deine Teilnahme!</p>`;
+    nextHtml = `<br><button onclick="resetToStart()">Zurück zum Start</button>`;
   }
 
   document.getElementById('step-container').innerHTML += nextHtml;
@@ -93,19 +97,21 @@ async function showChart(step) {
     }
   });
 }
+
 function resetAfterInactivity() {
   clearTimeout(inactivityTimer);
   inactivityTimer = setTimeout(() => {
     document.getElementById('reset-overlay').style.display = 'flex';
   }, 60000); // 60 Sekunden
 }
+
 function resetToStart() {
   document.getElementById('reset-overlay').style.display = 'none';
   currentStep = 0;
   startInteraction();
 }
-window.resetToStart = resetToStart;
 
+window.resetToStart = resetToStart;
 
 function updateProgress(step) {
   for (let i = 1; i <= 3; i++) {
@@ -127,3 +133,4 @@ window.onload = () => {
 // Global export
 window.startInteraction = startInteraction;
 window.selectOption = selectOption;
+
