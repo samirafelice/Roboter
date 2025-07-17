@@ -30,8 +30,12 @@ function startLoading(step) {
   updateProgress(step);
 
   document.getElementById('step-container').innerHTML = `
-    <p style="font-size: 20px;">🤖 Roboter überlegt ...</p>
-    <div class="spinner"></div>
+   <div class="loading-instruction">
+    <p style="font-size: 20px; margin-bottom: 10px;">🤖 Der Roboter überlegt sich gerade eine Antwort …</p>
+    <p style="font-size: 16px; color: #555;">Beobachte seine Bewegung genau. Was denkst du, was sie bedeutet?<br>
+    Gleich kannst du deine Interpretation wählen.</p>
+  </div>
+  <div class="spinner"></div>
   `;
 
   setTimeout(() => showOptions(step), 5000);
