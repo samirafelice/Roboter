@@ -16,7 +16,7 @@ app.use(express.json());
 // Initialdaten sichern, falls Datei fehlt
 await fs.ensureFile(dataPath);
 if (!(await fs.readFile(dataPath, 'utf8')).trim()) {
-  await fs.writeJson(dataPath, { step1: [], step2: [], step3: [] });
+  await fs.writeJson(dataPath, { step1: [], step2: [], step3: [], step4: [], step5: [] });
 }
 
 // Abrufen der Antworten
