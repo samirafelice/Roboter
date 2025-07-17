@@ -1,24 +1,28 @@
 let currentStep = 0;
-let inactivityTimer;
-
+let inactivityTimer; 
 function startInteraction() {
   currentStep++;
   updateProgress(currentStep);
   showStepButton(currentStep);
-  resetAfterInactivity();
+    resetAfterInactivity(); // ← hinzugefügt
+
+  
 }
 
 function showStepButton(step) {
   const labels = {
     1: 'Roboter begrüßen',
     2: 'Wie geht es dir heute?',
-    3: 'Magst du mich?'
+    3: 'Magst du mich?',
+    4: 'Frage 4',
+    5: 'Frage 5'
+    
   };
 
   document.getElementById('step-container').innerHTML = `
     <button onclick="startLoading(${step})">${labels[step]}</button>
   `;
-  resetAfterInactivity();
+  resetAfterInactivity(); 
 }
 
 function startLoading(step) {
@@ -38,7 +42,9 @@ function showOptions(step) {
   const questionText = {
     1: 'Wie interpretierst du die Begrüßung des Roboters?',
     2: 'Wie geht es dem Roboter heute?',
-    3: 'Mag der Roboter dich?'
+    3: 'Mag der Roboter dich?',
+    4: 'Frage 4',
+    5: 'Frage 5'
   }[step];
 
   const html = `
@@ -54,26 +60,28 @@ function showOptions(step) {
   `;
 
   document.getElementById('step-container').innerHTML = html;
-  resetAfterInactivity();
+  resetAfterInactivity()
 }
 
 async function selectOption(option) {
-  resetAfterInactivity();
-
+  // 1. Antwort speichern
   await fetch('/api/response', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ step: currentStep, option })
   });
 
+  // 2. Zeige Diagramm sofort
   showChart(currentStep);
 
+  // 3. Weiter oder Danke
   let nextHtml = '';
-  if (currentStep < 3) {
+  if (currentStep < 5) {
     nextHtml = `<br><button onclick="startInteraction()">Weiter</button>`;
   } else {
-    nextHtml = `<br><button onclick="resetToStart()">Zurück zum Start</button>`;
-  }
+    nextHtml = `<br><p>Danke für deine Teilnahme!</p>
+              <button onclick="resetToStart()">Zurück zum Start</button>`;
+}
 
   document.getElementById('step-container').innerHTML += nextHtml;
 }
@@ -97,24 +105,22 @@ async function showChart(step) {
     }
   });
 }
-
 function resetAfterInactivity() {
   clearTimeout(inactivityTimer);
   inactivityTimer = setTimeout(() => {
     document.getElementById('reset-overlay').style.display = 'flex';
-  }, 60000); // 60 Sekunden
+  }, 10000); // 10 Sekunden
 }
-
 function resetToStart() {
   document.getElementById('reset-overlay').style.display = 'none';
   currentStep = 0;
   startInteraction();
 }
-
 window.resetToStart = resetToStart;
 
+
 function updateProgress(step) {
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 5; i++) {
     const el = document.getElementById(`step-${i}`);
     el.classList.remove('done', 'active');
     if (i < step) {
@@ -133,4 +139,3 @@ window.onload = () => {
 // Global export
 window.startInteraction = startInteraction;
 window.selectOption = selectOption;
-
